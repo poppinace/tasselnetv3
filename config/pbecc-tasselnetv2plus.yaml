@@ -1,0 +1,52 @@
+DIR: 
+  dataset: "/media/data/hao/phenocryst_counting_dataset"
+  exp: "pbecc_tasselnetv2plus_r0.5_crop2000_400_bs16_epoch500"
+  snapshot: "./snapshots"
+  result: "./results"
+
+DATASET:
+  name: "pbecc"
+  list_train: "/media/data/hao/phenocryst_counting_dataset/train.txt"
+  list_val: "/media/data/hao/phenocryst_counting_dataset/val.txt"
+  crop_size: (2000, 400)
+  image_scale: 0.00392156862745098
+  image_mean: (0.3012, 0.3052, 0.3001)
+  image_std: (0.2250, 0.2314, 0.2351)
+  sigma: 10
+  resize_ratio: 0.5
+  random_crop: True
+  random_flip: True
+
+MODEL:
+  encoder: "tasselnetv2plus"
+  decoder: ""
+  counter: "count_regressor"
+  normalizer: "gpu_normalizer"
+  generator: "count_map_generator"
+  visualizer: "pixel_averaging_visualizer"
+  block_size: 64
+  output_stride: 8
+
+TRAIN:
+  checkpoint: "model_ckpt.pth.tar"
+  loss: "L1Loss"
+  batch_size: 16
+  num_epochs: 500
+  optimizer: "SGD"
+  lr_encoder: 0.01
+  lr_decoder: 0.01
+  encoder_multiplier: 1
+  momentum: 0.95
+  weight_decay: 5e-4
+  milestones: (200, 400)
+  num_workers: 0
+  disp_iter: 10
+  seed: 2020
+
+VAL:
+  checkpoint: "model_best.pth.tar"
+  evaluate_only: False
+  disp_iter: 10
+  val_epoch: 10
+  visualization: False
+  normalization_before_visualization: False

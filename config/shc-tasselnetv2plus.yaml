@@ -1,0 +1,54 @@
+DIR: 
+  dataset: "./data/sorghum_head_counting_dataset"
+  exp: "shc_tasselnetv2plus_i64o8_r1_crop256_1024_bs16_epoch500"
+  snapshot: "./snapshots"
+  result: "./results"
+
+DATASET:
+  name: "shc"
+  list_train: "./data/sorghum_head_counting_dataset/dataset1_train.txt"
+  list_val: "./data/sorghum_head_counting_dataset/dataset1_test.txt"
+  crop_size: (256, 1024)
+  image_scale: 0.00392156862745098
+  image_mean: (0.3714, 0.3609, 0.2386)
+  image_std: (0.2705, 0.2567, 0.2161)
+  sigma: 8
+  resize_ratio: 1.0
+  img_max_size: 1000
+  padding_constant: 8
+  random_crop: True
+  random_flip: True
+
+MODEL:
+  encoder: "tasselnetv2plus"
+  decoder: ""
+  counter: "count_regressor"
+  normalizer: "gpu_normalizer"
+  generator: "count_map_generator"
+  visualizer: "pixel_averaging_visualizer"
+  block_size: 64
+  output_stride: 8
+
+TRAIN:
+  checkpoint: "model_ckpt.pth.tar"
+  loss: "L1Loss"
+  batch_size: 5
+  num_epochs: 500
+  optimizer: "SGD"
+  lr_encoder: 0.01
+  lr_decoder: 0.01
+  encoder_multiplier: 1
+  momentum: 0.95
+  weight_decay: 5e-4
+  milestones: (200, 400)
+  num_workers: 0
+  disp_iter: 10
+  seed: 2020
+
+VAL:
+  checkpoint: "model_best.pth.tar"
+  evaluate_only: False
+  disp_iter: 10
+  val_epoch: 10
+  visualization: False
+  normalization_before_visualization: False
