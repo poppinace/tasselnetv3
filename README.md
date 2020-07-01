@@ -1,5 +1,5 @@
 # TasselNetV3
-by [Hao Lu](https://sites.google.com/site/poppinace/), Liang Liu
+by [Hao Lu](https://sites.google.com/site/poppinace/)
 
 
 ## Installation
